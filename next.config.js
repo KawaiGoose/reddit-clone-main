@@ -1,5 +1,12 @@
 module.exports = {
   images: {
-    domains: ["source.upsplash.com"],
+    remotePatterns: [
+      {
+        protocol: "http",
+        hostname: "source.unsplash.com",
+        port: "",
+        pathname: "/random",
+      },
+    ],
   },
 };

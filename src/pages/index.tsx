@@ -11,17 +11,24 @@ export default function Home() {
   const [posts, setPosts] = useState<Post[]>([]);
 
   useEffect(() => {
-    const fetchPostsFromApi = async (): Promise<Post[]> => {
-      const allPosts = (await API.graphql({ query: listPosts })) as {
-        data: ListPostsQuery;
-        errors: any[];
-      };
+    const fetchPostsFromApi = async (): Promise<void> => {
+      try {
+        const allPosts = (await API.graphql({ query: listPosts })) as {
+          data: ListPostsQuery;
+          errors: any[];
+        };
 
-      if (allPosts.data) {
-        setPosts(allPosts.data.listPosts.items as Post[]);
-        return allPosts.data.listPosts.items as Post[];
-      } else {
-        throw new Error("Could not get posts");
+        if (
+          allPosts.data &&
+          allPosts.data.listPosts &&
+          Array.isArray(allPosts.data.listPosts.items)
+        ) {
+          setPosts(allPosts.data.listPosts.items);
+        } else {
+          console.error("无法获取帖子数据");
+        }
+      } catch (error) {
+        console.error("获取帖子时发生错误:", error);
       }
     };
 
@@ -30,9 +37,9 @@ export default function Home() {
 
   return (
     <Container maxWidth="md">
-      {posts.map((post) => (
-        <PostPreview key={post.id} post={post} />
-      ))}
+      {posts.map((post) =>
+        post && post.id ? <PostPreview key={post.id} post={post} /> : null
+      )}
     </Container>
   );
 }
