@@ -197,17 +197,17 @@ export default function PostPreview({ post }: Props): ReactElement {
               >
                 <Typography variant="body1">{post.contents}</Typography>
               </Grid>
-              {/* {post.image && postImage && ( */}
-              <Grid item>
-                <Image
-                  src={`http://source.unsplash.com/random`}
-                  alt="这里是图像替代文本"
-                  height={200}
-                  width={200}
-                  layout="intrinsic"
-                />
-              </Grid>
-              {/* ）} */}
+              {post.image && postImage && (
+                <Grid item>
+                  <Image
+                    src={postImage}
+                    alt="这里是图像替代文本"
+                    height={200}
+                    width={200}
+                    layout="intrinsic"
+                  />
+                </Grid>
+              )}
             </Grid>
           </ButtonBase>
         </Grid>

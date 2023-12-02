@@ -19,8 +19,9 @@ type Post
   title: String!
   contents: String!
   image: String
-  votes: [Vote!]! @hasMany(indexName: "byVote", fields: ["id"])
+  #一个Post可以有多个Vote和Comment。
   comments: [Comment] @hasMany(indexName: "byPost", fields: ["id"])
+  votes: [Vote!]! @hasMany(indexName: "byVote", fields: ["id"])
 }
 
 type Comment
@@ -33,9 +34,10 @@ type Comment
     ]
   ) {
   id: ID!
-  postID: ID! @index(name: "byPost", sortKeyFields: ["content"])
-  post: Post @belongsTo(fields: ["postID"])
   content: String!
+  postID: ID! @index(name: "byPost", sortKeyFields: ["content"])
+  #Comment多对一关系。
+  post: Post @belongsTo(fields: ["postID"])
 }
 
 type Vote
